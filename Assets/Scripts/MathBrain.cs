@@ -8,7 +8,6 @@ using UnityEngine.EventSystems;
 public class MathBrain : MonoBehaviour {
 
 	public TMP_Text questionText;
-
 	List<string> operations = new List<string>(new string[] {"add", "subtract", "multiply"});
 	List<int> answerChoices = new List<int>();
 	GameObject[] buttons;
@@ -24,9 +23,11 @@ public class MathBrain : MonoBehaviour {
 
 	}
 	
+	// Generates a random (addition, subtraction, or multiplication) question
 	void Question_Generator() {
-		string operation = operations[Random.Range(0, 3)]; // Randomly picking an operation from the list
 
+		// Randomly picking an operation from the list
+		string operation = operations[Random.Range(0, 3)]; 
 		// Randomly choose 2 numbers
 		int num1 = Random.Range(1,10);
 		int num2 = Random.Range(1,10);;
@@ -63,12 +64,14 @@ public class MathBrain : MonoBehaviour {
 		Debug.Log("Generated Question");
 	}
 
-	void Answer_Generator(int correctAnswer) // Generate a list of possible answers using the actual answer
+	// Generate a list of possible answers using the actual answer
+	void Answer_Generator(int correctAnswer) 
 	{
 		int i = 0;
 		while (i < 3) 
 		{
-			if (Random.Range(0,2) == 0) // To randomly choose between addition or subtraction 
+			// To randomly choose between addition or subtraction 	
+			if (Random.Range(0,2) == 0) 
 			{
 				// Add a random number to the answer
 				answerChoices.Add(correctAnswer + Random.Range(1, 5));
@@ -84,6 +87,7 @@ public class MathBrain : MonoBehaviour {
 
 	}
 
+	// Updates the text of the answer buttons to the answer choices 
 	void Populate_Answer_Buttons()
 	{
 		int i = 0;
@@ -99,8 +103,8 @@ public class MathBrain : MonoBehaviour {
 		Debug.Log("Populated Answer Buttons");
 	}
 
-	public void Check_Answer()
+	public void Check_Answer(Button btn)
 	{
-		Debug.Log("you clicked me");
+		Debug.Log(btn.GetComponentInChildren<TMP_Text>().text);
 	}
 }
