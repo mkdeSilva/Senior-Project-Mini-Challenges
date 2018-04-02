@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class PatternBrain : MonoBehaviour
 {
-    float timeBetweenCubes = 100.0f; // Time between each cube glowing
+    float timeBetweenCubes = 2.0f; // Time between each cube glowing
 	bool waiting = false;
     public List<GameObject> allCubes = new List<GameObject>(); // List to store all the cubes in the scene
     public List<GameObject> patternCubes = new List<GameObject>(); // Cubes in the pattern
+
+    public int cubeNumber = 0;
 
     // Find all cubes in the scene
     void FindAllCubes()
@@ -21,12 +23,20 @@ public class PatternBrain : MonoBehaviour
     // Randomly pick a varying number of cubes
     void CubesInPattern()
     {
-        int numberOfCubes = Random.Range(4, 7);
+        int numberOfCubes = 4; // Set it to 4 for testing
 
         for (int i = 0; i < numberOfCubes; i++)
         {
-            patternCubes.Add(allCubes[Random.Range(0, allCubes.Count)]);
+            int randomNumber = Random.Range(0, allCubes.Count);
+
+            while(patternCubes.Contains(allCubes[randomNumber]))
+            {
+                randomNumber = Random.Range(0, allCubes.Count);
+            }
+
+            patternCubes.Add(allCubes[randomNumber]);
         }
+        
     }
 
     void Start()
@@ -34,48 +44,35 @@ public class PatternBrain : MonoBehaviour
         FindAllCubes();
         CubesInPattern();
 		GlowCubes();
-
-        // foreach (GameObject cube in patternCubes)
-        // {
-		// 	cube.GetComponent<Glow>().GlowTheCubes();
-		// 	Debug.Log(cube.name + " is glowing");
-        // }
     }
 
 	void GlowCubes()
 	{
-		GameObject cube0 = patternCubes[0];
-		GameObject cube1 = patternCubes[1];
-		if (!waiting) {
-					Debug.Log("First cube glowing");
-
-		cube0.GetComponent<Glow>().GlowTheCubes();
-
-		}
-
-		StartCoroutine(Wait());
-				Debug.Log("I'm ready to execute the next step");
-
-		if (!waiting)
-		{
-		Debug.Log("Second cube glowing");
-		cube1.GetComponent<Glow>().GlowTheCubes();
-
-		}
-
+		StartCoroutine(WaitToGlow(cubeNumber));
 	}
 
-    IEnumerator Wait()
-    {	
-		waiting = true;
-		while (waiting)
-		{
-			Debug.Log("Waiting for " + 2.0f + " seconds");
-        	yield return new WaitForSeconds(2.0f);
-			Debug.Log("Finished waiting");
-			waiting = false;
-		}
-		
+    void Glow() 
+    {
+        Debug.Log(patternCubes[cubeNumber].name + " is glowing");
+        patternCubes[cubeNumber].GetComponent<Glow>().GlowTheCubes();
+        cubeNumber++;
+        if (cubeNumber < 4) {
+            GlowCubes();
+        } else {
+            Debug.Log("Finished glowing pattern");
+        }
     }
 
+    IEnumerator WaitToGlow(int cubeNumber)
+    {	
+        yield return new WaitForSeconds(timeBetweenCubes);
+        Glow();
+		waiting = true;
+    }
+
+
+    // JUST FOR TESTING the answer part of the mini-challenge
+    public void ButtonClick(){
+        patternCubes[0].GetComponent<Glow>().GlowTheCubes();
+    }
 }

@@ -11,6 +11,7 @@ public class Glow : MonoBehaviour
 
     public void GlowTheCubes()
     {
+        Debug.Log("Glowing " + this.name);
         StartCoroutine(GlowUp());
     }
     IEnumerator GlowUp()

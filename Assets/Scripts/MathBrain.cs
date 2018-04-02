@@ -81,6 +81,7 @@ public class MathBrain : MonoBehaviour {
 				// Subtract a random number from the answer
 				answerChoices.Add(correctAnswer - Random.Range(1, 5));
 			}
+
 			i++;
 		}
 		Debug.Log("Generated Answers");
@@ -96,15 +97,16 @@ public class MathBrain : MonoBehaviour {
 			TMP_Text btnText = btn.GetComponent<Button>().GetComponentInChildren<TMP_Text>();
 			btnText.text = answerChoices[i].ToString();
 			i++;
-			{
-				
-			}
 		}
 		Debug.Log("Populated Answer Buttons");
 	}
 
 	public void Check_Answer(Button btn)
 	{
-		Debug.Log(btn.GetComponentInChildren<TMP_Text>().text);
+		if (int.Parse(btn.GetComponentInChildren<TMP_Text>().text) == answer) {
+			Debug.Log("Correct Answer");
+		} else {
+			btn.GetComponent<Image>().color = Color.red;
+		}
 	}
 }
