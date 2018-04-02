@@ -74,18 +74,29 @@ public class MathBrain : MonoBehaviour {
 			if (Random.Range(0,2) == 0) 
 			{
 				// Add a random number to the answer
-				answerChoices.Add(correctAnswer + Random.Range(1, 5));
+				int choice = correctAnswer + Random.Range(1, 5);
+
+				while(answerChoices.Contains(choice))
+				{
+					choice = correctAnswer + Random.Range(1, 5);
+				}
+				answerChoices.Add(choice);
 			} 
 			else
 			{
 				// Subtract a random number from the answer
-				answerChoices.Add(correctAnswer - Random.Range(1, 5));
+				int choice = correctAnswer - Random.Range(1, 5);
+
+				while(answerChoices.Contains(choice))
+				{
+					choice = correctAnswer - Random.Range(1, 5);
+				}
+				answerChoices.Add(choice);
 			}
 
 			i++;
 		}
 		Debug.Log("Generated Answers");
-
 	}
 
 	// Updates the text of the answer buttons to the answer choices 

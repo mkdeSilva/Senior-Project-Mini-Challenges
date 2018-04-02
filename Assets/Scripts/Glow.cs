@@ -9,27 +9,14 @@ public class Glow : MonoBehaviour
     bool glowing = true;
     float waitingTime = 2f;
 
-    public void GlowTheCubes()
-    {
-        Debug.Log("Glowing " + this.name);
-        StartCoroutine(GlowUp());
-    }
-    IEnumerator GlowUp()
-    {
-        while (glowing)
-        {
-            while (maxSize > transform.localScale.x)
-            {
-                transform.localScale += new Vector3(1, 1, 1) * Time.deltaTime * growingSpeed;
-                yield return null;
-            }
+   Animator animator;
+    void Start() {
 
-            while (200 < transform.localScale.x) // The original square size is 200x200
-            {
-                transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime * growingSpeed;
-                yield return null;
-            }
-            glowing = false;
-        }
+    }
+
+    public void GlowCube() {
+        Debug.Log("Glowing " + this.name);
+        animator = GetComponent<Animator>();
+        animator.SetTrigger("Glowing");
     }
 }

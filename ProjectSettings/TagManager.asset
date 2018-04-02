@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ColorCube
   - AnswerButton
+  - ColorButton
   layers:
   - Default
   - TransparentFX
