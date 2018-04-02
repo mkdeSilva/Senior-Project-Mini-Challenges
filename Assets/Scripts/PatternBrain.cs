@@ -10,7 +10,7 @@ public class PatternBrain : MonoBehaviour
     public List<GameObject> patternCubes = new List<GameObject>(); // Cubes in the pattern
     public List<GameObject> answerCubes = new List<GameObject>(); // To store the cubes that the user clicks
     public List<GameObject> buttons = new List<GameObject>(); // Buttons in scene
-
+    public List<GameObject> trackers = new List<GameObject>();
     public string answer = ""; // Answer in a string format
     public string guess = "";
     public int cubeNumber = 0;
@@ -23,7 +23,7 @@ public class PatternBrain : MonoBehaviour
         {
             buttons.Add(buttonObj);
         }
-        DisableButtons();
+        DisableItems();
         FindCubes();
         CubesInPattern();
 		GlowCubes();
@@ -38,13 +38,23 @@ public class PatternBrain : MonoBehaviour
         }
     }
 
-    // Find all colour buttons and disable them
-    void DisableButtons()
+    // Find all colour buttons and trackers and disable them
+    void DisableItems()
     {
         foreach (GameObject button in buttons)
         {
             button.SetActive(false);
         }
+        trackers.Add(GameObject.Find("Tracker 1"));
+        trackers.Add(GameObject.Find("Tracker 2"));
+        trackers.Add(GameObject.Find("Tracker 3"));
+        trackers.Add(GameObject.Find("Tracker 4"));
+
+        foreach(GameObject tracker in trackers)
+        {
+            tracker.SetActive(false);
+        }
+
     }
 
     void ActivateButtons()
@@ -99,6 +109,7 @@ public class PatternBrain : MonoBehaviour
     }
 
     public void ButtonClick(GameObject btn){
+        trackers[clickNumber].SetActive(true);
         clickNumber++;
         string color = btn.name.Split(' ')[0];
         GameObject cube = GameObject.Find(color + " Cube");
@@ -107,9 +118,10 @@ public class PatternBrain : MonoBehaviour
         {
             answerCubes.Add(cube);
             Debug.Log("Max Cubes Reached");
-            DisableButtons();
+            DisableItems();
             CheckAnswer();
         }
+        Debug.Log("Tracker " + clickNumber);
         answerCubes.Add(cube);
     }
 
@@ -125,5 +137,7 @@ public class PatternBrain : MonoBehaviour
             }
         }
         Debug.Log("Your guess is " + isCorrect);
+
     }
+
 }
