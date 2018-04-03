@@ -10,7 +10,6 @@ public class PatternBrain : MonoBehaviour
     public List<GameObject> patternCubes = new List<GameObject>(); // Cubes in the pattern
     public List<GameObject> answerCubes = new List<GameObject>(); // To store the cubes that the user clicks
     public List<GameObject> buttons = new List<GameObject>(); // Buttons in scene
-    public List<GameObject> trackers = new List<GameObject>();
     public string answer = ""; // Answer in a string format
     public string guess = "";
     public int cubeNumber = 0;
@@ -38,23 +37,13 @@ public class PatternBrain : MonoBehaviour
         }
     }
 
-    // Find all colour buttons and trackers and disable them
+    // Find all colour buttons and disable them
     void DisableItems()
     {
         foreach (GameObject button in buttons)
         {
             button.SetActive(false);
         }
-        trackers.Add(GameObject.Find("Tracker 1"));
-        trackers.Add(GameObject.Find("Tracker 2"));
-        trackers.Add(GameObject.Find("Tracker 3"));
-        trackers.Add(GameObject.Find("Tracker 4"));
-
-        foreach(GameObject tracker in trackers)
-        {
-            tracker.SetActive(false);
-        }
-
     }
 
     void ActivateButtons()
@@ -66,14 +55,20 @@ public class PatternBrain : MonoBehaviour
         }
     }
 
-    // Randomly pick a varying number of cubes
+    // Randomly pick 4 distinct cubes
     void CubesInPattern()
     {
-        int numberOfCubes = 4; // Set it to 4 for testing
+        int numberOfCubes = 4; 
 
-        for (int i = 0; i < numberOfCubes; i++)
+       for (int i = 0; i < numberOfCubes; i++)
         {
-            patternCubes.Add(allCubes[Random.Range(0, allCubes.Count)]);
+            int randomNumber = Random.Range(0, allCubes.Count);
+
+            while(patternCubes.Contains(allCubes[randomNumber]))
+            {
+                randomNumber = Random.Range(0, allCubes.Count);
+            }
+            patternCubes.Add(allCubes[randomNumber]);
         }
         
     }
@@ -109,7 +104,7 @@ public class PatternBrain : MonoBehaviour
     }
 
     public void ButtonClick(GameObject btn){
-        trackers[clickNumber].SetActive(true);
+
         clickNumber++;
         string color = btn.name.Split(' ')[0];
         GameObject cube = GameObject.Find(color + " Cube");
@@ -121,7 +116,6 @@ public class PatternBrain : MonoBehaviour
             DisableItems();
             CheckAnswer();
         }
-        Debug.Log("Tracker " + clickNumber);
         answerCubes.Add(cube);
     }
 
@@ -137,7 +131,5 @@ public class PatternBrain : MonoBehaviour
             }
         }
         Debug.Log("Your guess is " + isCorrect);
-
     }
-
 }
