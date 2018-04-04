@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.EventSystems;
 
 public class MathBrain : MonoBehaviour {
 
-	public TMP_Text questionText;
+	public Text questionText;
 	List<string> operations = new List<string>(new string[] {"add", "subtract", "multiply"});
 	List<int> answerChoices = new List<int>();
 	GameObject[] buttons;
@@ -105,7 +104,7 @@ public class MathBrain : MonoBehaviour {
 		int i = 0;
 		foreach (GameObject btn in buttons)
 		{
-			TMP_Text btnText = btn.GetComponent<Button>().GetComponentInChildren<TMP_Text>();
+			Text btnText = btn.GetComponent<Button>().GetComponentInChildren<Text>();
 			btnText.text = answerChoices[i].ToString();
 			i++;
 		}
@@ -114,7 +113,7 @@ public class MathBrain : MonoBehaviour {
 
 	public void Check_Answer(Button btn)
 	{
-		if (int.Parse(btn.GetComponentInChildren<TMP_Text>().text) == answer) {
+		if (int.Parse(btn.GetComponentInChildren<Text>().text) == answer) {
 			Debug.Log("Correct Answer");
 		} else {
 			btn.GetComponent<Image>().color = Color.red;
